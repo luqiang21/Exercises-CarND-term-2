@@ -52,6 +52,9 @@ int main() {
 
   for (double x = 0; x <= 20; x += 1.0) {
     // TODO: use `polyeval` to evaluate the x values.
+    Eigen::VectorXd coeffs = polyfit(xvals, yvals, 3);
+    double y = polyeval(coeffs, x);
+    std::cout << y << std::endl;
   }
 
   // Expected output
