@@ -38,7 +38,7 @@ def search(grid,init,goal,cost):
     # ----------------------------------------
     # modify code below
     # ----------------------------------------
-    closed = [[0 for row in range(len(grid[0]))] for col in range(len(grid))]
+    closed = [[0 for col in range(len(grid[0]))] for row in range(len(grid))]
     closed[init[0]][init[1]] = 1
 
     x = init[0]
@@ -50,8 +50,8 @@ def search(grid,init,goal,cost):
     found = False  # flag that is set when search is complete
     resign = False # flag set if we can't find expand
 
-    expand = [[-1 for row in range(len(grid[0]))] for col in range(len(grid))]
-    action = [[-1 for row in range(len(grid[0]))] for col in range(len(grid))]
+    expand = [[-1 for col in range(len(grid[0]))] for row in range(len(grid))]
+    action = [[-1 for col in range(len(grid[0]))] for row in range(len(grid))]
 
     while not found and not resign:
         if len(open) == 0:
@@ -79,7 +79,7 @@ def search(grid,init,goal,cost):
                             closed[x2][y2] = 1
                             action[x2][y2] = i
 
-    policy = [[' ' for row in range(len(grid[0]))] for col in range(len(grid))]
+    policy = [[' ' for col in range(len(grid[0]))] for row in range(len(grid))]
     x = goal[0]
     y = goal[1]
     policy[x][y] = '*'
