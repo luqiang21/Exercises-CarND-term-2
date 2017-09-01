@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-from classifier import GNB
+# from classifier import GNB
+from prediction_solution import GNB
+
 import json
 
 def main():

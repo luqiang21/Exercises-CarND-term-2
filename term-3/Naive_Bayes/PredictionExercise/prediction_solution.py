@@ -17,33 +17,33 @@ class GNB():
         # s, d, s_dot and d_dot alone give good results
         s, d, s_dot, d_dot = vars
         return s, d, s_dot, d_dot
-        
+
     def train(self, X, Y):
         """
-        X is an array of training data, each entry of which is a 
+        X is an array of training data, each entry of which is a
         length 4 array which represents a snapshot of a vehicle's
         s, d, s_dot, and d_dot coordinates.
 
         Y is an array of labels, each of which is either 'left', 'keep',
-        or 'right'. These labels indicate what maneuver the vehicle was 
-        engaged in during the corresponding training data snapshot. 
+        or 'right'. These labels indicate what maneuver the vehicle was
+        engaged in during the corresponding training data snapshot.
         """
 
         num_vars = 4
 
         # initialize an empty array of arrays. For this problem
-        # we are looking at three labels and keeping track of 4 
+        # we are looking at three labels and keeping track of 4
         # variables for each (s,d,s_dot,d_dot), so the empty array
         # totals_by_label will look like this:
 
         # {
-        #   "left" :[ [],[],[],[] ], 
-        #   "keep" :[ [],[],[],[] ], 
-        #   "right":[ [],[],[],[] ]  
+        #   "left" :[ [],[],[],[] ],
+        #   "keep" :[ [],[],[],[] ],
+        #   "right":[ [],[],[],[] ]
         # }
 
         totals_by_label = {
-            "left" : [], 
+            "left" : [],
             "keep" : [],
             "right": [],
         }
@@ -56,11 +56,11 @@ class GNB():
             # process the raw s,d,s_dot,d_dot snapshot if desired.
             x = self.process_vars(x)
 
-            # add this data into the appropriate place in the 
+            # add this data into the appropriate place in the
             # totals_by_label data structure.
             for i,val in enumerate(x):
                 totals_by_label[label][i].append(val)
-        
+
         # Get the mean and standard deviation for each of the arrays
         # we've built up. These will be used as our priors in GNB
         means = []
@@ -73,11 +73,10 @@ class GNB():
                 std = np.std(arr)
                 means[-1].append(mean)
                 stds[-1].append(std)
-
         self._means = means
         self._stds = stds
 
-        
+
     def _predict(self, obs):
         """
         Private method used to assign a probability to each class.

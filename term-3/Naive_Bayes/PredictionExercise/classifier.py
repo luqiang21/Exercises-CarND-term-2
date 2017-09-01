@@ -1,4 +1,12 @@
+import numpy as np
+import random
+from math import sqrt, pi, exp
 
+def gaussian_prob(obs, mu, sig):
+    num = (obs - mu)**2
+    denum = 2*sig**2
+    norm = 1 / sqrt(2*pi*sig**2)
+    return norm * exp(-num/denum)
 
 class GNB(object):
 
@@ -22,7 +30,46 @@ class GNB(object):
 		labels - array of N labels
 		  - Each label is one of "left", "keep", or "right".
 		"""
-		pass
+		X = data
+		Y = labels
+		num_vars = 4
+
+		totals_by_label = {
+		    "left" : [],
+		    "keep" : [],
+		    "right": [],
+		}
+
+		for label in self.possible_labels:
+			for i in range(num_vars):
+			    totals_by_label[label].append([])
+
+		for x, label in zip(X,Y):
+
+			# process the raw s,d,s_dot,d_dot snapshot if desired.
+			# x = self.process_vars(x)
+			# print len(x)
+			# add this data into the appropriate place in the
+			# totals_by_label data structure.
+			for i,val in enumerate(x):
+				totals_by_label[label][i].append(val)
+
+	    # Get the mean and standard deviation for each of the arrays
+        # we've built up. These will be used as our priors in GNB
+        means = []
+        stds = []
+        for i in self.possible_labels:
+            means.append([])
+            stds.append([])
+            for arr in totals_by_label[i]:
+                mean = np.mean(arr)
+                std = np.std(arr)
+                means[-1].append(mean)
+                stds[-1].append(std)
+
+		print means
+        self._means = means
+        self._stds = stds
 
 	def predict(self, observation):
 		"""
